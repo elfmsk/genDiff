@@ -1,0 +1,63 @@
+{
+  "name": "elfmsk-second-project",
+  "version": "1.0.3",
+  "description": "second project from hexlet",
+  "main": "index.js",
+  "bin": {
+    "gendiff": "dist/bin/genDiff.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch *.js",
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build",
+    "eslint": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elfmsk/project-lvl2-s353.git"
+  },
+  "keywords": [
+    "hexlet",
+    "project"
+  ],
+  "author": "elfmsk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elfmsk/project-lvl2-s353/issues"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "homepage": "https://github.com/elfmsk/project-lvl2-s353#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.1",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-stage-0": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^9.0.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-flow": "^6.23.0",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-babel": "^5.2.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jest": "^21.26.2",
+    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0"
+  },
+  "dependencies": {
+    "commander": "^2.18.0",
+    "ini": "^1.3.5",
+    "js-yaml": "^3.12.0",
+    "lodash": "^4.17.11"
+  }
+}
