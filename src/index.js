@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import fs from 'fs';
+// import fs from 'fs';
+import parseFunction from './parse';
 
 const processForObjects = [
   {
@@ -24,8 +25,7 @@ const getObject = (key, objB, objA) => processForObjects
   .find(({ check }) => check(key, objB, objA));
 
 const genDiff = (pathToFile1, pathToFile2) => {
-  const [objJsonBefore, objJsonAfter] = [pathToFile1, pathToFile2]
-    .map(arg => JSON.parse(fs.readFileSync(arg)));
+  const [objJsonBefore, objJsonAfter] = parseFunction(pathToFile1, pathToFile2);
   const listKeys = _.union(Object.keys(objJsonBefore), Object.keys(objJsonAfter));
 
   const result = listKeys.reduce((acc, key) => {
