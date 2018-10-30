@@ -23,4 +23,15 @@ describe('difference between JSON files', () => {
 
     expect(result).toEqual(expected);
   });
+
+  it('ini', () => {
+    const configPath = './__tests__/__fixtures__/';
+    const afterPath = `${configPath}after.ini`;
+    const beforePath = `${configPath}before.ini`;
+    const expectedJson = `${configPath}expectedINI.txt`;
+    const result = genDiff(beforePath, afterPath);
+    const expected = fs.readFileSync(expectedJson, 'utf8').trim();
+
+    expect(result).toEqual(expected);
+  });
 });

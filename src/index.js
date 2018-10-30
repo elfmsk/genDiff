@@ -1,6 +1,7 @@
 import _ from 'lodash';
-// import fs from 'fs';
-import parseFunction from './parse';
+import fs from 'fs';
+import path from 'path';
+import parseFunction from './parser';
 
 const processForObjects = [
   {
@@ -24,13 +25,15 @@ const processForObjects = [
 const getObject = (key, objB, objA) => processForObjects
   .find(({ check }) => check(key, objB, objA));
 
-const genDiff = (pathToFile1, pathToFile2) => {
-  const [objJsonBefore, objJsonAfter] = parseFunction(pathToFile1, pathToFile2);
-  const listKeys = _.union(Object.keys(objJsonBefore), Object.keys(objJsonAfter));
+const genDiff = (...ways) => {
+  const [objBefore, objAfter] = ways
+    .map(element => parseFunction(path.extname(element), fs.readFileSync(element, 'utf8')));
+
+  const listKeys = _.union(Object.keys(objBefore), Object.keys(objAfter));
 
   const result = listKeys.reduce((acc, key) => {
-    const { process } = getObject(key, objJsonBefore, objJsonAfter);
-    return `${acc}${process(key, objJsonBefore, objJsonAfter)}\n`;
+    const { process } = getObject(key, objBefore, objAfter);
+    return `${acc}${process(key, objBefore, objAfter)}\n`;
   }, '');
 
   return result.trim();
