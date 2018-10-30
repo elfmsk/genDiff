@@ -28,11 +28,11 @@ const genDiff = (pathToFile1, pathToFile2) => {
     .map(arg => JSON.parse(fs.readFileSync(arg)));
   const listKeys = _.union(Object.keys(objJsonBefore), Object.keys(objJsonAfter));
 
-  const arrStringElements = listKeys.reduce((acc, key) => {
+  const result = listKeys.reduce((acc, key) => {
     const { process } = getObject(key, objJsonBefore, objJsonAfter);
     return `${acc}${process(key, objJsonBefore, objJsonAfter)}\n`;
   }, '');
 
-  return arrStringElements.trim();
+  return result.trim();
 };
 export default genDiff;

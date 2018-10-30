@@ -1,6 +1,6 @@
 {
   "name": "elfmsk-second-project",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "second project from hexlet",
   "main": "index.js",
   "bin": {
