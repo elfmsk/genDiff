@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
-import parseFunction from './parser';
+import parse from './parser';
 
 const processForObjects = [
   {
@@ -25,9 +25,9 @@ const processForObjects = [
 const getObject = (key, objB, objA) => processForObjects
   .find(({ check }) => check(key, objB, objA));
 
-const genDiff = (...ways) => {
-  const [objBefore, objAfter] = ways
-    .map(element => parseFunction(path.extname(element), fs.readFileSync(element, 'utf8')));
+const genDiff = (pathToFile1, pathToFile2) => {
+  const [objBefore, objAfter] = [pathToFile1, pathToFile2]
+    .map(element => parse(path.extname(element), fs.readFileSync(element, 'utf8')));
 
   const listKeys = _.union(Object.keys(objBefore), Object.keys(objAfter));
 

@@ -7,5 +7,5 @@ const choose = {
   '.ini': ini.parse,
 };
 
-const parseFunction = (key, path) => choose[key](path);
-export default parseFunction;
+const parse = (key, path) => choose[key](path);
+export default parse;
