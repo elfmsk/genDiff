@@ -16,23 +16,23 @@ const strigObj = (data, depth) => {
 
 const processForObjects = [
   {
-    check: type => type === 'noda',
+    check: type => type === 'node',
     process: (depth, name, type, value, children, f) => `${' '.repeat(depth)}  ${name}: {\n${f(children, depth + 2)}  ${' '.repeat(depth)}}`,
   },
   {
-    check: type => type === ' ',
+    check: type => type === 'unaltered',
     process: (depth, name, type, value) => `${' '.repeat(depth)}  ${name}: ${value}`,
   },
   {
-    check: type => type === '+',
+    check: type => type === 'added',
     process: (depth, name, type, value) => `${' '.repeat(depth)}+ ${name}: ${strigObj(value, depth)}`,
   },
   {
-    check: type => type === '-',
+    check: type => type === 'removed',
     process: (depth, name, type, value) => `${' '.repeat(depth)}- ${name}: ${strigObj(value, depth)}`,
   },
   {
-    check: type => type === '+-',
+    check: type => type === 'updated',
     process: (depth, name, type, value) => `${' '.repeat(depth)}+ ${name}: ${strigObj(value.a, depth)}\n${' '.repeat(depth)}- ${name}: ${strigObj(value.b, depth)}`,
   },
 ];
@@ -50,4 +50,5 @@ const render = (ast, depth = 0) => {
   }, '');
   return result;
 };
-export default render;
+
+export default ast => `{\n${render(ast)}}`;
