@@ -1,41 +1,43 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parse from './parser';
+import buildAst from './ast';
+import render from './rendering';
 
-const processForObjects = [
-  {
-    check: (key, objB, objA) => objB[key] === objA[key],
-    process: (key, objB) => `${key}: ${objB[key]}`,
-  },
-  {
-    check: (key, objB, objA) => !_.has(objB, key) && _.has(objA, key),
-    process: (key, objB, objA) => `+ ${key}: ${objA[key]}`,
-  },
-  {
-    check: (key, objB, objA) => _.has(objB, key) && !_.has(objA, key),
-    process: (key, objB) => `- ${key}: ${objB[key]}`,
-  },
-  {
-    check: (key, objB, objA) => objB[key] !== objA[key],
-    process: (key, objB, objA) => `+ ${key}: ${objA[key]}\n- ${key}: ${objB[key]}`,
-  },
-];
+// const processForObjects = [
+//   {
+//     check: (key, objB, objA) => objB[key] === objA[key],
+//     process: (key, objB) => `  ${key}: ${objB[key]}`,
+//   },
+//   {
+//     check: (key, objB, objA) => !_.has(objB, key) && _.has(objA, key),
+//     process: (key, objB, objA) => `+ ${key}: ${objA[key]}`,
+//   },
+//   {
+//     check: (key, objB, objA) => _.has(objB, key) && !_.has(objA, key),
+//     process: (key, objB) => `- ${key}: ${objB[key]}`,
+//   },
+//   {
+//     check: (key, objB, objA) => objB[key] !== objA[key],
+//     process: (key, objB, objA) => `+ ${key}: ${objA[key]}\n- ${key}: ${objB[key]}`,
+//   },
+// ];
 
-const getObject = (key, objB, objA) => processForObjects
-  .find(({ check }) => check(key, objB, objA));
+// const getObject = (key, objB, objA) => processForObjects
+//   .find(({ check }) => check(key, objB, objA));
 
 const genDiff = (pathToFile1, pathToFile2) => {
   const [objBefore, objAfter] = [pathToFile1, pathToFile2]
     .map(element => parse(path.extname(element), fs.readFileSync(element, 'utf8')));
 
-  const listKeys = _.union(Object.keys(objBefore), Object.keys(objAfter));
+  const ast = buildAst(objBefore, objAfter);
 
-  const result = listKeys.reduce((acc, key) => {
-    const { process } = getObject(key, objBefore, objAfter);
-    return `${acc}${process(key, objBefore, objAfter)}\n`;
-  }, '');
-
-  return result.trim();
+  const result = render(ast);
+  // const result = listKeys.reduce((acc, key) => {
+  //   const { process } = getObject(key, objBefore, objAfter);
+  //   return `${acc}${process(key, objBefore, objAfter)}\n`;
+  // }, '');
+  return `{\n${result}}`;
 };
 export default genDiff;
