@@ -4,25 +4,25 @@ const processForObjects = [
   {
     check: (key, objB, objA) => objB[key] instanceof Object && objA[key] instanceof Object,
     process: (key, childrenB, childrenA, f) => ({
-      name: key, type: 'node', value: null, children: f(childrenB[key], childrenA[key]),
+      name: key, type: 'node', value: undefined, children: f(childrenB[key], childrenA[key]),
     }),
   },
   {
     check: (key, objB, objA) => objB[key] === objA[key],
     process: (key, objA) => ({
-      name: key, type: 'unaltered', value: objA[key], children: null,
+      name: key, type: 'unaltered', value: objA[key], children: undefined,
     }),
   },
   {
     check: (key, objB, objA) => !_.has(objB, key) && _.has(objA, key),
     process: (key, objB, objA) => ({
-      name: key, type: 'added', value: objA[key], children: null,
+      name: key, type: 'added', value: objA[key], children: undefined,
     }),
   },
   {
     check: (key, objB, objA) => _.has(objB, key) && !_.has(objA, key),
     process: (key, objB) => ({
-      name: key, type: 'removed', value: objB[key], children: null,
+      name: key, type: 'removed', value: objB[key], children: undefined,
     }),
   },
   {

@@ -48,7 +48,15 @@ describe('difference between JSON files', () => {
     const beforePath = `${configPath}beforeTree.json`;
     const result = genDiff(beforePath, afterPath, 'plain');
     const expected = fs.readFileSync(`${configPath}expectedPlain.txt`, 'utf8').trim();
+    expect(result).toEqual(expected);
+  });
 
+  it('makeJson', () => {
+    const configPath = './__tests__/__fixtures__/';
+    const afterPath = `${configPath}afterTree.json`;
+    const beforePath = `${configPath}beforeTree.json`;
+    const result = genDiff(beforePath, afterPath, 'json');
+    const expected = fs.readFileSync(`${configPath}expectedJson.txt`, 'utf8').trim();
     expect(result).toEqual(expected);
   });
 });
