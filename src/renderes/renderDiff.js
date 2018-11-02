@@ -19,7 +19,7 @@ const processForObjects = {
   unaltered: (depth, name, type, value) => `${' '.repeat(depth)}  ${name}: ${value}`,
   added: (depth, name, type, value) => `${' '.repeat(depth)}+ ${name}: ${strigObj(value, depth)}`,
   removed: (depth, name, type, value) => `${' '.repeat(depth)}- ${name}: ${strigObj(value, depth)}`,
-  updated: (depth, name, type, value) => `${' '.repeat(depth)}+ ${name}: ${strigObj(value.a, depth)}\n${' '.repeat(depth)}- ${name}: ${strigObj(value.b, depth)}`,
+  updated: (depth, name, type, value) => [`${' '.repeat(depth)}+ ${name}: ${strigObj(value.a, depth)}`, `${' '.repeat(depth)}- ${name}: ${strigObj(value.b, depth)}`],
 };
 
 const render = (ast, depth = 0) => {
@@ -27,8 +27,9 @@ const render = (ast, depth = 0) => {
     const {
       name, type, value, children,
     } = obj;
-    const process = processForObjects[type];
-    return `${acc}${process(depth, name, type, value, children, render)}\n`;
+    const selectProcess = processForObjects[type];
+    const process = type === 'updated' ? selectProcess(depth, name, type, value, children, render).join('\n') : selectProcess(depth, name, type, value, children, render);
+    return `${acc}${process}\n`;
   }, '');
   return result;
 };
