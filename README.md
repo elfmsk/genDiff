@@ -10,4 +10,4 @@
 $ sudo npm install -g elfmsk-second-project
 ```
 
-[![asciicast](https://asciinema.org/a/lcb44ylKOs6SjYk9C5aHZL5Uw.png)](https://asciinema.org/a/lcb44ylKOs6SjYk9C5aHZL5Uw)
+[![asciicast](https://asciinema.org/a/e0onyfGNBJnsEsNZOHFGS3idy.svg)](https://asciinema.org/a/e0onyfGNBJnsEsNZOHFGS3idy)

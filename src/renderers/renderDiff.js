@@ -15,7 +15,7 @@ const strigObj = (data, depth) => {
 };
 
 const processForObjects = {
-  node: (depth, name, type, value, children, f) => `${' '.repeat(depth)}  ${name}: {\n${f(children, depth + 2)}  ${' '.repeat(depth)}}`,
+  node: (depth, name, type, value, children, f) => `${' '.repeat(depth)}  ${name}: {\n${f(children, depth + 2)}\n  ${' '.repeat(depth)}}`,
   unaltered: (depth, name, type, value) => `${' '.repeat(depth)}  ${name}: ${value}`,
   added: (depth, name, type, value) => `${' '.repeat(depth)}+ ${name}: ${strigObj(value, depth)}`,
   removed: (depth, name, type, value) => `${' '.repeat(depth)}- ${name}: ${strigObj(value, depth)}`,
@@ -23,15 +23,14 @@ const processForObjects = {
 };
 
 const render = (ast, depth = 0) => {
-  const result = ast.reduce((acc, obj) => {
+  const result = ast.map((obj) => {
     const {
       name, type, value, children,
     } = obj;
-    const selectProcess = processForObjects[type];
-    const process = type === 'updated' ? selectProcess(depth, name, type, value, children, render).join('\n') : selectProcess(depth, name, type, value, children, render);
-    return `${acc}${process}\n`;
-  }, '');
-  return result;
+    const process = processForObjects[type];
+    return process(depth, name, type, value, children, render);
+  });
+  return _.flatten(result).join('\n');
 };
 
-export default ast => `{\n${render(ast)}}`;
+export default ast => `{\n${render(ast)}\n}`;
